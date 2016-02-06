@@ -15,18 +15,6 @@ var sendResponse = function(response, data, statusCode) {
   response.end(JSON.stringify(data));
 };
 
-var collectData = function(request, callback) {
-  var data = '';
-  request.on('data', function(chunk) {
-    data += chunk;
-  });
-  request.on('end', function() {
-    data = data || '{}';
-    callback(JSON.parse(data));
-  });
-};
-
-
 module.exports = {
   messages: {
     get: function (req, res) {
@@ -34,21 +22,19 @@ module.exports = {
         if (err) {
           console.log('error: ', err);
         } else {
-          console.log('messages: ' + JSON.stringify(messages));
+          // console.log('messages: ' + JSON.stringify(messages));
           sendResponse(res, {results: messages});
         }
       });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      collectData(req, function(messageObj) {
-        models.messages.post(messageObj, function(err, message) {
-          if (err) {
-            console.log('error: ' + err);
-          } else {
-            console.log(message);
-            sendResponse(res, {message: message}, 201);
-          }
-        });
+      models.messages.post(req.body, function(err, message) {
+        if (err) {
+          console.log('error: ' + err);
+        } else {
+          console.log('controller message: ' + JSON.stringify(message));
+          sendResponse(res, {message: message}, 201);
+        }
       });
     } // a function which handles posting a message to the database
   },
