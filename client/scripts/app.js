@@ -26,7 +26,7 @@ var app = {
     app.$roomSelect.on('change', app.saveRoom);
 
     // Fetch previous messages
-    app.startSpinner();
+    // app.startSpinner();
     app.fetch(false);
 
     // Poll for new messages
@@ -65,7 +65,7 @@ var app = {
         if (!data.results || !data.results.length) { return; }
 
         // Get the last message
-        var mostRecentMessage = data.results[data.results.length-1];
+        var mostRecentMessage = data.results[data.results.length - 1];
         var displayedRoom = $('.chat span').first().data('roomname');
         app.stopSpinner();
         // Only bother updating the DOM if we have a new message
@@ -106,8 +106,7 @@ var app = {
       app.$chats.animate({
         scrollTop: scrollTop
       });
-    }
-    else {
+    } else {
       app.$chats.scrollTop(scrollTop);
     }
   },
@@ -142,8 +141,9 @@ var app = {
   },
 
   addMessage: function(data) {
-    if (!data.roomname)
+    if (!data.roomname) {
       data.roomname = 'lobby';
+    }
 
     // Only add messages that are in our current room
     if (data.roomname === app.roomname) {
@@ -153,11 +153,12 @@ var app = {
       // Add in the message data using DOM methods to avoid XSS
       // Store the username in the element's data
       var $username = $('<span class="username"/>');
-      $username.text(data.username+': ').attr('data-username', data.username).attr('data-roomname',data.roomname).appendTo($chat);
+      $username.text(data.username + ': ').attr('data-username', data.username).attr('data-roomname', data.roomname).appendTo($chat);
 
       // Add the friend class
-      if (app.friends[data.username] === true)
+      if (app.friends[data.username] === true) {
         $username.addClass('friend');
+      }
 
       var $message = $('<br><span/>');
       $message.text(data.text).appendTo($chat);
@@ -176,7 +177,7 @@ var app = {
 
       // Bold all previous messages
       // Escape the username in case it contains a quote
-      var selector = '[data-username="'+username.replace(/"/g, '\\\"')+'"]';
+      var selector = '[data-username="' + username.replace(/"/g, '\\\"') + '"]';
       var $usernames = $(selector).addClass('friend');
     }
   },
@@ -200,8 +201,7 @@ var app = {
         // Fetch messages again
         app.fetch();
       }
-    }
-    else {
+    } else {
       app.startSpinner();
       // Store as undefined for empty names
       app.roomname = app.$roomSelect.val();
@@ -224,12 +224,12 @@ var app = {
     evt.preventDefault();
   },
 
-  startSpinner: function(){
+  startSpinner: function() {
     $('.spinner img').show();
-    $('form input[type=submit]').attr('disabled', "true");
+    $('form input[type=submit]').attr('disabled', 'true');
   },
 
-  stopSpinner: function(){
+  stopSpinner: function() {
     $('.spinner img').fadeOut('fast');
     $('form input[type=submit]').attr('disabled', null);
   }

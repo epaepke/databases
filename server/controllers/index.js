@@ -21,7 +21,7 @@ var collectData = function(request, callback) {
     data += chunk;
   });
   request.on('end', function() {
-    data = data || "{}";
+    data = data || '{}';
     callback(JSON.parse(data));
   });
 };
@@ -34,11 +34,10 @@ module.exports = {
         if (err) {
           console.log('error: ', err);
         } else {
-          console.log('messages: ' + messages)
+          console.log('messages: ' + JSON.stringify(messages));
           sendResponse(res, {results: messages});
         }
       });
-      
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       collectData(req, function(messageObj) {
@@ -47,7 +46,7 @@ module.exports = {
             console.log('error: ' + err);
           } else {
             console.log(message);
-            sendResponse(res, {message:message}, 201);
+            sendResponse(res, {message: message}, 201);
           }
         });
       });
