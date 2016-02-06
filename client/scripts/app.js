@@ -116,7 +116,7 @@ var app = {
   },
 
   populateRooms: function(results) {
-    app.$roomSelect.html('<option value="__newRoom">New room...</option><option value="" selected>Lobby</option></select>');
+    app.$roomSelect.html('<option value="__newRoom">New room...</option>');
 
     if (results) {
       var rooms = {};
@@ -131,7 +131,7 @@ var app = {
         }
       });
       if (!Object.keys(rooms).length) {
-
+        app.$roomSelect.append('<option value="" selected>lobby</option>');
       }
     }
 

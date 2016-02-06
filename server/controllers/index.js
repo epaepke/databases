@@ -51,7 +51,7 @@ module.exports = {
       });
     },
     post: function (req, res) {
-     models.users.post(req.body, function (err, result) {
+      models.users.post(req.body, function (err, result) {
         if (err) {
           console.log('error: ' + err);
         } else {
