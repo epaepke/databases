@@ -24,6 +24,7 @@ CREATE TABLE messages (
   id int  UNSIGNED AUTO_INCREMENT,
   user_id int UNSIGNED,
   room_id int UNSIGNED,
+  message_text text,
   created_at datetime NOT NULL,
   PRIMARY KEY (id),
   FOREIGN KEY (user_id) REFERENCES users (id), 
