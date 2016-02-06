@@ -9,7 +9,7 @@ var headers = {
   'Content-Type': 'application/json'
 };
 
-var sendResponse = function(response, data, statusCode) {
+var sendResponse = function (response, data, statusCode) {
   statusCode = statusCode || 200;
   response.writeHead(statusCode, headers);
   response.end(JSON.stringify(data));
@@ -28,7 +28,7 @@ module.exports = {
       });
     }, // a function which handles a get request for all messages
     post: function (req, res) {
-      models.messages.post(req.body, function(err, message) {
+      models.messages.post(req.body, function (err, message) {
         if (err) {
           console.log('error: ' + err);
         } else {
@@ -41,8 +41,25 @@ module.exports = {
 
   users: {
     // Ditto as above
-    get: function (req, res) {},
-    post: function (req, res) {}
+    get: function (req, res) {
+      models.users.get(function (err, users) {
+        if (err) {
+          console.log('error: ', err);
+        } else {
+          sendResponse(res, {results: users});
+        }
+      });
+    },
+    post: function (req, res) {
+     models.users.post(req.body, function (err, result) {
+        if (err) {
+          console.log('error: ' + err);
+        } else {
+          console.log('controller message: ' + JSON.stringify(result));
+          sendResponse(res, {message: result}, 201);
+        }
+      });
+    }
   }
 };
 
